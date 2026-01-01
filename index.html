@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A.S.Naidu - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="img prof 2.png" alt="Logo" class="logo-icon"> 
+            <div>
+                Aditya<br>Nandyala
+            </div>
+        </div>
+        <div class="menu-btn" id="openSidebarBtn">
+            <div class="menu-line" style="width: 18px;"></div>
+            <div class="menu-line" style="width: 24px;"></div>
+        </div>
+    </header>
+
+    <aside class="sidebar-menu" id="sidebarMenu">
+        <div class="sidebar-header">
+            <div class="logo sidebar-logo">
+                <img src="img prof 2.png" alt="Logo" class="logo-icon">
+                <div>
+                    A.S.<br>Naidu
+                </div>
+            </div>
+            <button class="close-btn" id="closeSidebarBtn">&times;</button>
+        </div>
+        <ul class="sidebar-nav">
+            <li><a href="#home" class="sidebar-link" onclick="closeSidebar()">Home</a></li>
+            <li><a href="#about" class="sidebar-link" onclick="closeSidebar()">Biography</a></li>
+            <li><a href="#hobbies" class="sidebar-link" onclick="closeSidebar()">My Hobbies</a></li>
+            <li><a href="#writings" class="sidebar-link" onclick="closeSidebar()">My Writings</a></li>
+            <li><a href="#connect" class="sidebar-link" onclick="closeSidebar()">Contact Me</a></li>
+        </ul>
+        <div class="social-links">
+            <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+        </div>
+    </aside>
+
+
+    <section id="home" class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="content-wrapper">
+            <div class="text-block">
+                <h1>
+                    <span class="text-black">Nandyala<br></span>
+                    <span class="text-white">Aditya<br>Sai</span>
+                </h1>
+            </div>
+            <div class="image-block">
+                <img src="IMG_3029 2.png" alt="as naidu" class="hero-img">
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="container">
+            
+            <div id="about-short">
+                <div class="row-flex">
+                    <div class="col-text">
+                        
+                        <h2 class="section-title">About Me</h2>
+                        <div class="about-content">
+                            <p>I am a Computer Science and Engineering student passionate about problem-solving, systems thinking, and building efficient software. I focus on strong fundamentals in programming and computer science, and I enjoy understanding how systems work at a deeper level.</p>
+                            <br>
+                            <p>Alongside my technical interests, I actively contribute to college events through photography, videography, and video editing, combining creativity with technology. My goal is to grow into a high-impact engineer through continuous learning and disciplined practice... <a href="javascript:void(0)" onclick="toggleBiography()" class="read-more">Read More</a></p>
+                            <p class="section-label" style="margin-left: 730px;">— A.S.Naidu</p>
+                            <a href="https://www.linkedin.com/in/aditya-sai-nandyala-346178268/" class="btn-linkedin"><i class="fab fa-linkedin"></i> Connect on Linkedin</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="about-full" style="display: none;">
+                
+                <div class="bio-header-row">
+                    <div class="bio-title-block">
+                        <h2 class="bio-name">Aditya Sai<br><span style="color: #050b50;;">Nandyala</span></h2>
+                    </div>
+                    <div class="bio-quote-block">
+                        <p>I strive to understand not just what works, but why it works. My goal is to work in high-impact technical roles where performance, precision, and clarity of thought are critical.</p>
+                    </div>
+                </div>
+
+                <div class="bio-content-row">
+                    
+                    <div class="bio-collage-container">
+                        <div class="collage-img-back">
+                            <img src="IMG_0527.jpg" alt="Aditya Casual">
+                        </div>
+                        <div class="collage-img-front">
+                            <img src="IMG_2096_2.jpg" alt="Aditya Portrait">
+                        </div>
+                    </div>
+
+                    <div class="bio-text-content">
+                        <p>I am a Computer Science and Engineering student with a deep passion for problem-solving, systems thinking, and building efficient, scalable software. I am naturally curious about how technology works beneath the surface, and I enjoy exploring concepts beyond their theoretical definitions. From data structures and algorithms to low-level system behavior and performance optimization, I strive to understand not just what works, but why it works.</p>
+                        
+                        <p>My academic journey has helped me build strong foundations in programming, mathematics, and logical reasoning. I place great importance on strengthening these fundamentals, as I believe they form the backbone of every effective engineer. I constantly challenge myself with projects and practical implementations that push me beyond my comfort zone and sharpen my problem-solving abilities.</p>
+                        
+                        <p>Alongside my technical pursuits, I have developed strong skills in video editing, photography, and videography. I actively contribute to college events by managing visual documentation, capturing moments, and producing polished final content. These experiences have strengthened my creativity, attention to detail, and ability to present ideas clearly through visual storytelling.</p>
+
+            
+                        <div style="margin-top: 40px;">
+                            <a href="javascript:void(0)" onclick="toggleBiography()" class="btn-back">
+                                <i class="fas fa-arrow-up"></i> Back to Summary
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <section id="writings" class="writings-section">
+        <div class="container">
+            <h2 class="section-title text-center">My Projects</h2>
+            <p class="section-subtitle text-center">(takes through Github)</p>
+            
+            <div class="blog-grid">
+                <a href="https://github.com/adityasai-hx/1ST-GAMIFIED">
+                <div class="blog-card" style="background-image: url('gamfi.jpeg');">
+                    <div class="blog-overlay">
+                        <h3>Gamfied Learning</h3>
+                        <p><i class="far fa-clock"></i> May 12, 2025</p>
+                    </div>
+                </div>
+                </a>
+                <a href="https://github.com/adityasai-hx/game">
+                <div class="blog-card" style="background-image: url('final.jpeg');">
+                    <div class="blog-overlay">
+                        <h3>FINAL PROJECT</h3>
+                        <p><i class="far fa-clock"></i> November 7, 2024</p>
+                    </div>
+                </div>
+                </a>
+                <a href="https://github.com/adityasai-hx/portfolio-as01">
+                <div class="blog-card" style="background-image: url('invent.jpeg');">
+                    <div class="blog-overlay">
+                        <h3>Inventory Management</h3>
+                        <p><i class="far fa-clock"></i> October 31, 2024</p>
+                    </div>
+                </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="hobbies" class="hobbies-section">
+        <div class="container">
+            <h2 class="section-title text-black text-center">My Hobbies</h2>
+            
+            <div class="hobbies-grid">
+                <a href="asnsug.html">
+                <div class="hobby-card card-red" href="asn.html">
+                    <div class="hobby-icon"><i class="fas fa-book-open"></i></div>
+                    <h3>A.S.N-Suggests</h3>
+                </div>
+                </a>
+                <a href="asnvisual.html">
+                <div class="hobby-card card-yellow">
+                    <div class="hobby-icon"><i class="fas fa-camera"></i></div>
+                    <h3>A.S.N's Photography</h3>
+                </div>
+                </a>
+                <a href="ac.html">
+                <div class="hobby-card card-blue">
+                    <div class="hobby-icon"><i class="fas fa-tasks"></i></div>
+                    <h3>A.S.N's Activities</h3>
+                </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="achievements" class="achievements-section">
+        <div class="container">
+            <h2 class="section-title text-black text-center" style="color: #050b50;">My Journey</h2>
+            
+            <div class="carousel-container">
+                <div class="carousel-track" id="track"></div>
+
+                <div class="carousel-nav">
+                    <button class="nav-arrow" onclick="prevSlide()">&#10094;</button> <div class="dots-container" id="dotsContainer"></div>             <button class="nav-arrow" onclick="nextSlide()">&#10095;</button> </div>
+            </div>
+
+        </div>
+    </section>
+    <section id="vision" class="vision-section">
+        <div class="vision-content">
+            <h2 class="section-title text-white">My Vision</h2>
+            <p class="vision-text">To build a career at the intersection of technology, mathematics, and decision-making, becoming a highly skilled Quant Trader and software engineer who creates efficient, data-driven systems. I aim to work on problems where performance, precision, and clarity of thought matter, and to contribute to products and strategies that operate at scale and impact real markets and users.</p>
+        </div>
+    </section>
+    <br>
+    <hr>
+    <section id="mission" class="mission-section">
+        <div class="mission-overlay"></div>
+        <div class="container">
+            <div class="mission-content text-left"> <h2 class="section-title text-white">My Mission</h2>
+                <p class="mission-text">
+                    My mission is to build strong foundations in computer science, mathematics, and programming while sharpening my problem-solving and analytical skills. I aim to develop efficient, high-performance software through full-stack and app development, and prepare for quant trading roles that require precision, discipline, and data-driven thinking.
+                </p>
+            </div>
+        </div>
+    </section>
+    <section id="connect" class="connect-section">
+        <div class="container text-center">
+            <h2 class="section-title">Let's Connect</h2>
+            <div class="connect-profile">
+                <img src="img prof 2.png" alt="Aditya Sai" class="connect-img">
+            </div>
+            <h3 class="connect-name">Aditya Sai Nandyala</h3>
+            <p class="connect-sub">Thanks for visiting! Send a connection request on LinkedIn.</p>
+            <a href="https://www.linkedin.com/in/aditya-sai-nandyala-346178268/" class="btn-linkedin-large"><i class="fab fa-linkedin"></i> Connect on Linkedin</a>
+        </div>
+    </section>
+
+
+    <nav class="bottom-nav">
+        <a href="#about" class="nav-link">About Me</a>
+        <a href="#writings" class="nav-link">My Projects</a>
+        <a href="#hobbies" class="nav-link">My Hobbies</a>
+        <a href="#achievements" class="nav-link">My Journey</a>
+        <a href="#vision" class="nav-link">V & M</a>
+        <a href="#connect" class="nav-link">Connect</a>
+    </nav>
+
+    <script src="script.js"></script>
+</body>
+</html>

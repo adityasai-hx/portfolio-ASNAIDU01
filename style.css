@@ -1,0 +1,544 @@
+/* --- GLOBAL RESETS --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth; /* Enables smooth scrolling between sections */
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    overflow-x: hidden;
+}
+
+/* Helper Classes */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.text-center { text-align: center; }
+.text-white { color: #fff !important; }
+.text-black { color: #820e0e; }
+
+.section-title {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #0e074a; /* Deep Red Title */
+    margin-bottom: 20px;
+}
+
+/* --- HEADER (FIXED) --- */
+header {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    padding: 20px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+}
+
+.logo {
+    font-weight: 800;
+    font-size: 1.1rem;
+    line-height: 1.1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ffffff; /* Default black, might need adjustment on dark sections */
+}
+.logo-icon { height: 40px; width: auto; border-radius: 35px;}
+
+.menu-btn {
+    width: 50px; height: 50px;
+    background: #000;
+    border-radius: 50%;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    gap: 5px; cursor: pointer;
+    z-index: 1001;
+}
+.menu-line { background: #fff; height: 2px; transition: 0.3s; }
+
+/* --- SIDEBAR MENU --- */
+.sidebar-menu {
+    position: fixed; top: 0; right: -400px;
+    width: 400px; height: 100vh;
+    background: #fff;
+    z-index: 2000;
+    padding: 40px;
+    transition: right 0.4s ease;
+    box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+    display: flex; flex-direction: column;
+}
+.sidebar-menu.active { right: 0; }
+.sidebar-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 50px; }
+.sidebar-logo { color: #070067; font-size: 1.4rem; }
+.close-btn { background: none; border: none; font-size: 2.5rem; cursor: pointer; }
+.sidebar-nav { list-style: none; }
+.sidebar-nav li { margin-bottom: 20px; }
+.sidebar-link { text-decoration: none; color: #333; font-size: 1.2rem; font-weight: 600; }
+.sidebar-link:hover { color: #C0392B; }
+.social-links { margin-top: auto; display: flex; gap: 20px; }
+.social-icon { color: #333; font-size: 1.5rem; transition: 0.3s; }
+.social-icon:hover { color: #C0392B; }
+
+
+/* --- SECTION 1: HERO (HOME) --- */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    background-color: #050b51; /* The specific red */
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end; /* Align content bottom/center */
+    justify-content: center;
+}
+
+.hero-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.1), transparent 60%);
+}
+
+.content-wrapper {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+    height: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+.image-block { margin-right: -50px; z-index: 1; }
+.hero-img { max-height: 85vh; width: auto; }
+
+.text-block { z-index: 2; margin-bottom: 30vh; }
+.text-block h1 { font-size: 5rem; line-height: 0.9; font-weight: 800; text-transform: capitalize; }
+
+.scroll-indicator {
+    position: absolute; right: 50px; top: 50%; transform: translateY(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.scroll-text { writing-mode: vertical-rl; transform: rotate(180deg); color: #fff; letter-spacing: 2px; }
+.scroll-dot { width: 8px; height: 8px; background: #fff; border-radius: 50%; }
+.scroll-line { width: 1px; height: 40px; background: rgba(255,255,255,0.4); }
+
+
+/* --- SECTION 2: ABOUT ME --- */
+.about-section {
+    background-color: #f9f9f9;
+    padding: 100px 0;
+}
+.section-label { text-transform: uppercase; font-weight: 600; margin-bottom: 10px; color: #666; }
+.about-content { font-size: 1.1rem; line-height: 1.8; color: #444; max-width: 900px; }
+.read-more { color: #C0392B; text-decoration: none; font-weight: 600; }
+.btn-linkedin {
+    display: inline-block;
+    background-color: #0060ba;
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 20px;
+    font-weight: 600;
+}
+
+
+/* --- SECTION 3: MY WRITINGS (BLOG) --- */
+.writings-section {
+    background-color: #EEEEEE;
+    padding: 100px 0;
+}
+.section-subtitle { font-size: 1.2rem; color: #555; margin-bottom: 40px; }
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+.blog-card {
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+.blog-card:hover { transform: translateY(-5px); }
+.blog-overlay {
+    position: absolute; bottom: 0; left: 0; width: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    padding: 20px;
+    color: #fff;
+}
+.blog-overlay h3 { font-size: 1.5rem; margin-bottom: 5px; }
+
+
+/* --- SECTION 4: HOBBIES --- */
+.hobbies-section {
+    background-color: #f9f9f9; /* Dark background */
+    padding: 100px 0;
+}
+.hobbies-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 50px;
+    flex-wrap: wrap;
+}
+.hobby-card {
+    width: 300px; height: 250px;
+    border-radius: 15px;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: transform 0.3s;
+}
+.hobby-card:hover { transform: scale(1.05); }
+.hobby-icon { font-size: 3rem; margin-bottom: 20px; }
+.hobby-card h3 { font-size: 1.2rem; font-weight: 700; }
+
+.card-red { background: linear-gradient(135deg, #C0392B, #E74C3C); }
+.card-yellow { background: linear-gradient(135deg, #D4AC0D, #F1C40F); color: #fff; }
+.card-blue { background: linear-gradient(135deg, #2980B9, #5499C7); }
+
+
+/* --- SECTION 5: ACHIEVEMENTS (NEW 3D CAROUSEL) --- */
+.achievements-section {
+    padding: 80px 0;
+    /* Using dark navy to make the 3D effect pop, similar to the Hero section */
+    background-color: #EEEEEE; 
+    overflow: hidden;
+}
+
+.achievements-section .section-title {
+    color: #fff; /* White title for dark background */
+    margin-bottom: 50px;
+}
+
+/* 3D Container */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 1000px; /* Slightly wider to fit rotations */
+    height: 500px; /* Height to accommodate the card size + rotation */
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px; /* Essential for depth */
+}
+
+/* The Track */
+.carousel-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-style: preserve-3d;
+}
+
+/* Individual Card Styling */
+.carousel-item {
+    position: absolute;
+    width: 500px;
+    height: 300px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+    transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth snap animation */
+    background: #1a1a2e; /* Card background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --- 3D STATES (Controlled by JS) --- */
+
+/* Center Card */
+.item-center {
+    transform: translateX(0) scale(1) rotateY(0deg);
+    z-index: 10;
+    opacity: 1;
+    box-shadow: 0 0 30px rgba(100, 100, 255, 0.5); /* Glow effect */
+}
+
+/* Left Card (Rotated 45deg) */
+.item-left {
+    transform: translateX(-300px) scale(0.85) rotateY(45deg);
+    z-index: 5;
+    opacity: 0.7;
+    filter: brightness(0.6); /* Dim the sides */
+}
+
+/* Right Card (Rotated -45deg) */
+.item-right {
+    transform: translateX(300px) scale(0.85) rotateY(-45deg);
+    z-index: 5;
+    opacity: 0.7;
+    filter: brightness(0.6); /* Dim the sides */
+}
+
+/* Hidden Cards */
+.item-hidden {
+    transform: translateX(0) scale(0.5);
+    z-index: 0;
+    opacity: 0;
+}
+
+/* --- CAROUSEL NAVIGATION (< . . . . >) --- */
+.carousel-nav {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 20;
+    padding: 10px 20px;
+    border-radius: 30px;
+    background: rgba(0, 0, 0, 0.3); /* Glass-like pill background */
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* The Arrows (< and >) */
+.nav-arrow {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0 5px;
+    transition: all 0.3s ease;
+    line-height: 1;
+}
+
+.nav-arrow:hover {
+    color: #fff;
+    transform: scale(1.2);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* The Dots Container */
+.dots-container {
+    display: flex;
+    gap: 8px;
+}
+
+/* Individual Dot */
+.dot {
+    width: 8px;
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot:hover {
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Active Dot Styling */
+.dot.active {
+    background-color: #fff; /* Bright white for active */
+    transform: scale(1.3);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+
+/* --- SECTION 6: VISION --- */
+.vision-section {
+    background-image: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    padding: 150px 0;
+    position: relative;
+    display: flex; justify-content: center; align-items: center;
+}
+.vision-section::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4);
+}
+.vision-content {
+    position: relative; z-index: 2;
+    max-width: 800px;
+    text-align: right;
+    color: #fff;
+    padding: 0 20px;
+}
+.vision-text { font-size: 1.2rem; line-height: 1.6; margin-top: 20px; }
+
+
+/* --- SECTION 7: MISSION --- */
+.mission-section {
+    position: relative;
+    background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    padding: 150px 0;
+    display: flex;
+    align-items: center;
+}
+
+.mission-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to right, rgba(10, 25, 47, 0.9), rgba(10, 25, 47, 0.6));
+    z-index: 1;
+}
+
+.mission-content {
+    position: relative; z-index: 2;
+    max-width: 800px;
+    padding: 0 20px;
+}
+.text-left { text-align: left; }
+
+.mission-text {
+    font-size: 1.3rem;
+    line-height: 1.8;
+    color: #e6f1ff;
+    margin-top: 20px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    border-left: 4px solid #64ffda;
+    padding-left: 20px;
+}
+
+
+/* --- SECTION 8: CONNECT --- */
+.connect-section {
+    background-color: #F4F6F7;
+    padding: 100px 0 150px 0;
+}
+.connect-profile { margin: 30px auto; width: 150px; height: 150px; border-radius: 50%; overflow: hidden; }
+.connect-img { width: 100%; height: 100%; object-fit: cover; }
+.connect-name { font-size: 2rem; margin-bottom: 10px; font-weight: 800; }
+.connect-sub { color: #666; margin-bottom: 30px; }
+.btn-linkedin-large {
+    background-color: #0060ba;
+    color: #fff;
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(74, 118, 168, 0.4);
+    transition: 0.3s;
+}
+.btn-linkedin-large:hover { background-color: #0060ba; transform: translateY(-2px); }
+
+
+/* --- BOTTOM NAV (STICKY PILL) --- */
+.bottom-nav {
+    position: fixed;
+    bottom: 30px; left: 50%; transform: translateX(-50%);
+    background: #fff;
+    padding: 8px;
+    border-radius: 50px;
+    display: flex; gap: 5px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    z-index: 999;
+}
+.nav-link {
+    text-decoration: none; color: #333; font-weight: 600; font-size: 0.9rem;
+    padding: 10px 20px; border-radius: 30px; transition: 0.3s;
+}
+.nav-link:hover { background-color: #f0f0f0; }
+.nav-link.active { background-color: #000; color: #fff; }
+
+
+/* --- BIOGRAPHY FULL VIEW STYLES --- */
+.bio-header-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 60px; padding-bottom: 30px; border-bottom: 1px solid #eee;
+    flex-wrap: wrap; gap: 30px;
+}
+
+.bio-title-block .bio-name { font-size: 3.5rem; line-height: 1.1; font-weight: 800; color: #000; }
+
+.bio-quote-block {
+    max-width: 500px; padding-left: 30px; border-left: 4px solid #050;
+}
+.bio-quote-block p { font-size: 1.1rem; font-weight: 600; color: #333; line-height: 1.6; }
+
+.bio-content-row { display: flex; gap: 60px; align-items: flex-start; }
+
+.bio-collage-container {
+    position: relative; width: 45%; height: 600px; flex-shrink: 0;
+}
+
+.collage-img-back {
+    position: absolute; top: 0; left: 0; width: 70%; height: 60%;
+    overflow: hidden; border-radius: 15px; z-index: 1;
+}
+.collage-img-back img { width: 100%; height: 100%; object-fit: cover; }
+
+.collage-img-front {
+    position: absolute; bottom: 0; right: 0; width: 75%; height: 55%;
+    overflow: hidden; border-radius: 15px; z-index: 2;
+    border: 8px solid #fff; box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+.collage-img-front img { width: 100%; height: 100%; object-fit: cover; }
+
+.bio-text-content { flex: 1; }
+.bio-text-content p { font-size: 1.05rem; line-height: 1.8; color: #444; margin-bottom: 25px; }
+
+.btn-back {
+    display: inline-block; padding: 10px 25px; background-color: #333;
+    color: #fff; text-decoration: none; border-radius: 30px;
+    font-weight: 600; transition: 0.3s;
+}
+.btn-back:hover { background-color: #d62828; transform: translateY(-3px); }
+
+
+/* --- MOBILE RESPONSIVE --- */
+@media (max-width: 900px) {
+    .content-wrapper { flex-direction: column-reverse; text-align: center; }
+    .image-block { margin-right: 0; }
+    .text-block { margin-bottom: 20px; margin-top: 100px; }
+    .text-block h1 { font-size: 3.5rem; }
+    .hero-img { max-height: 50vh; }
+    .bottom-nav { width: 90%; overflow-x: auto; white-space: nowrap; }
+    .vision-content { text-align: center; }
+    
+    /* Bio Responsiveness */
+    .bio-header-row { flexDirection: column; align-items: flex-start; }
+    .bio-quote-block { border-left: none; border-top: 4px solid #D62828; padding-left: 0; padding-top: 20px; }
+    .bio-content-row { flexDirection: column; }
+    .bio-collage-container { width: 100%; height: 400px; margin-bottom: 30px; }
+    .collage-img-back { width: 60%; height: 70%; }
+    .collage-img-front { width: 65%; height: 65%; }
+    .bio-title-block .bio-name { font-size: 2.5rem; }
+
+    /* 3D Carousel Mobile adjustments */
+    .achievements-section { padding: 40px 0; }
+    .carousel-container { height: 450px; }
+    .carousel-item { width: 260px; height: 350px; }
+    
+    /* Mission */
+    .mission-section { padding: 100px 0; }
+    .mission-text { font-size: 1.1rem; }
+}
