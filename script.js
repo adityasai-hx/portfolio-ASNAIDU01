@@ -173,7 +173,75 @@ function resetAutoPlay() {
     startAutoPlay();
 }
 
+// =========================================
+// 4. SCROLL ANIMATIONS & EFFECTS
+// =========================================
+
+function initScrollAnimations() {
+    const observerOptions = {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    const animatedElements = document.querySelectorAll('.section-title, .about-content, .blog-card, .hobby-card, .bio-header-row, .bio-content-row');
+
+    animatedElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        observer.observe(el);
+    });
+}
+
+// Header scroll effect
+function initHeaderScroll() {
+    const header = document.querySelector('header');
+    const logo = document.querySelector('.logo');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+            header.classList.add('scrolled');
+            if (logo) logo.style.color = '#333';
+        } else {
+            header.classList.remove('scrolled');
+            if (logo) logo.style.color = '#ffffff';
+        }
+    });
+}
+
+// Smooth parallax effect for hero
+function initParallax() {
+    const heroImg = document.querySelector('.hero-img');
+
+    if (heroImg) {
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const limit = window.innerHeight;
+
+            if (scrolled <= limit) {
+                heroImg.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+        });
+    }
+}
+
 // Run initialization when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     initCarousel();
+    initScrollAnimations();
+    initHeaderScroll();
+    initParallax();
+
+    setTimeout(() => {
+        document.body.style.opacity = '1';
+    }, 100);
 });
