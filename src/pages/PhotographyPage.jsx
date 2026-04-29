@@ -5,8 +5,7 @@ import GrainOverlay from '../components/GrainOverlay';
 
 const photos = [
   'v1.jpeg', 'v2.jpeg', 'v3.jpeg', 'v4.jpeg', 'v5.png', 'v6.jpeg', 
-  'v7.jpeg', 'v8.jpeg', 'v9.jpeg', 'v10.jpeg', 'i1.jpeg', 'i2.jpeg', 
-  'i3.jpeg', 'i4.jpeg', 'i5.jpeg', 'i6.jpeg', 'i7.jpeg'
+  'v7.jpeg', 'v8.jpeg', 'v9.jpeg'
 ];
 
 const PhotographyPage = () => {
