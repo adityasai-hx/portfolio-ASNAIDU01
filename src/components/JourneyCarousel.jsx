@@ -30,80 +30,93 @@ const JourneyCarousel = () => {
   return (
     <section id="achievements" className="bg-[#EEEEEE] py-24 md:py-32 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-4xl md:text-5xl font-extrabold text-[#050b50] text-center mb-16">My Journey</h2>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <h2 className="text-4xl md:text-5xl font-extrabold text-[#050b50] text-center mb-16">My Journey</h2>
+        </motion.div>
         
-        <div className="relative h-[400px] md:h-[500px] flex justify-center items-center perspective-[1000px]">
+        <div className="relative h-[400px] md:h-[600px] flex justify-center items-center perspective-[1200px]">
           <div className="relative w-full h-full flex justify-center items-center transform-style-3d">
-            {achievementImages.map((src, index) => {
-              const total = achievementImages.length;
-              let diff = index - centerIndex;
-              
-              // Handle circular logic for diff
-              if (diff > total / 2) diff -= total;
-              if (diff < -total / 2) diff += total;
+            <AnimatePresence initial={false}>
+              {achievementImages.map((src, index) => {
+                const total = achievementImages.length;
+                let diff = index - centerIndex;
+                
+                // Handle circular logic for diff
+                if (diff > total / 2) diff -= total;
+                if (diff < -total / 2) diff += total;
 
-              const isCenter = diff === 0;
-              const isLeft = diff === -1 || (centerIndex === 0 && index === total - 1);
-              const isRight = diff === 1 || (centerIndex === total - 1 && index === 0);
+                const absDiff = Math.abs(diff);
+                const isCenter = diff === 0;
 
-              let x = 0;
-              let scale = 0.5;
-              let rotateY = 0;
-              let zIndex = 0;
-              let opacity = 0;
+                // 3D Coverflow Calculations
+                const x = diff * (window.innerWidth < 768 ? 120 : 250); // horizontal spread
+                const z = -absDiff * 150; // push back in 3D space
+                const rotateY = diff * -45; // turn towards center at 45 degrees
+                const scale = 1 - (absDiff * 0.1); 
+                const opacity = 1 - (absDiff * 0.25);
+                const zIndex = 10 - absDiff;
 
-              if (isCenter) {
-                x = 0;
-                scale = 1;
-                rotateY = 0;
-                zIndex = 10;
-                opacity = 1;
-              } else if (isLeft) {
-                x = -300;
-                scale = 0.8;
-                rotateY = 45;
-                zIndex = 5;
-                opacity = 0.6;
-              } else if (isRight) {
-                x = 300;
-                scale = 0.8;
-                rotateY = -45;
-                zIndex = 5;
-                opacity = 0.6;
-              }
+                return (
+                  <motion.div
+                    key={index}
+                    animate={{
+                      x,
+                      z,
+                      rotateY,
+                      scale,
+                      opacity,
+                      zIndex,
+                    }}
+                    transition={{ 
+                      type: "spring", 
+                      stiffness: 300, 
+                      damping: 30, 
+                      mass: 0.8 
+                    }}
+                    className={`absolute w-[280px] md:w-[600px] aspect-video rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] bg-gray-900 ${isCenter ? 'cursor-default' : 'cursor-pointer'}`}
+                    onClick={() => {
+                      if (!isCenter) setCenterIndex(index);
+                    }}
+                    whileHover={isCenter ? { scale: 1.05, shadow: "0 25px 60px rgba(0,0,0,0.5)" } : {}}
+                  >
+                    {/* Dark overlay for side images */}
+                    <motion.div 
+                      className="absolute inset-0 bg-black z-10"
+                      animate={{ opacity: isCenter ? 0 : 0.4 }}
+                      transition={{ duration: 0.4 }}
+                    />
+                    
+                    <img 
+                      src={src} 
+                      alt={`Journey ${index}`} 
+                      className="w-full h-full object-cover transition-transform duration-700 ease-out" 
+                      style={{ transform: isCenter ? 'scale(1)' : 'scale(1.1)' }}
+                    />
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
 
-              return (
-                <motion.div
-                  key={index}
-                  animate={{
-                    x,
-                    scale,
-                    rotateY,
-                    zIndex,
-                    opacity,
-                  }}
-                  transition={{ duration: 0.6, ease: "easeInOut" }}
-                  className="absolute w-[300px] md:w-[500px] aspect-video rounded-2xl overflow-hidden shadow-2xl bg-gray-800"
-                >
-                  <img src={src} alt={`Journey ${index}`} className="w-full h-full object-cover" />
-                </motion.div>
-              );
-            })}
-          </div>
+            {/* Left Navigation Button */}
+            <button 
+              onClick={prevSlide}
+              className="absolute left-2 md:left-8 top-1/2 -translate-y-1/2 z-30 p-3 md:p-4 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-[#050b50] hover:bg-white hover:scale-110 hover:shadow-xl transition-all duration-300"
+            >
+              <ChevronLeft size={32} />
+            </button>
 
-          {/* Navigation Overlay */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-6 bg-black/20 backdrop-blur-md px-6 py-3 rounded-full border border-white/10 z-20">
-            <button onClick={prevSlide} className="text-white hover:scale-125 transition-transform"><ChevronLeft size={24} /></button>
-            <div className="flex gap-2">
-              {achievementImages.map((_, i) => (
-                <button 
-                  key={i}
-                  onClick={() => setCenterIndex(i)}
-                  className={`w-2 h-2 rounded-full transition-all ${i === centerIndex ? 'bg-white scale-150 shadow-[0_0_10px_white]' : 'bg-white/30'}`}
-                />
-              ))}
-            </div>
-            <button onClick={nextSlide} className="text-white hover:scale-125 transition-transform"><ChevronRight size={24} /></button>
+            {/* Right Navigation Button */}
+            <button 
+              onClick={nextSlide}
+              className="absolute right-2 md:right-8 top-1/2 -translate-y-1/2 z-30 p-3 md:p-4 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-[#050b50] hover:bg-white hover:scale-110 hover:shadow-xl transition-all duration-300"
+            >
+              <ChevronRight size={32} />
+            </button>
           </div>
         </div>
       </div>
@@ -112,3 +125,4 @@ const JourneyCarousel = () => {
 };
 
 export default JourneyCarousel;
+

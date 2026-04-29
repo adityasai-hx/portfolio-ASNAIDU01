@@ -4,10 +4,10 @@ import { Menu, X } from 'lucide-react';
 const Navbar = ({ toggleSidebar }) => {
   return (
     <header className="fixed top-0 left-0 w-full p-5 md:px-12 flex justify-between items-center z-[1000]">
-      <div className="flex items-center gap-2 font-extrabold text-lg leading-tight text-white drop-shadow-md">
-        <img src="/src/assets/img prof 2.png" alt="Logo" className="h-10 w-auto rounded-full" />
-        <div>
-          Aditya<br />Nandyala
+      <div className="flex items-center gap-3">
+        <img src="/src/assets/img prof 2.png" alt="Logo" className="h-10 w-10 rounded-full object-cover shadow-md border border-white/10" />
+        <div className="font-black text-xl tracking-[0.2em] text-white drop-shadow-lg uppercase">
+          ASN
         </div>
       </div>
       
