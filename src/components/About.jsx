@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUp, Linkedin } from 'lucide-react';
+import img0527 from '../assets/IMG_0527.jpg';
+import img2096 from '../assets/IMG_2096_2.jpg';
 
 const About = () => {
   const [isFullBio, setIsFullBio] = useState(false);
@@ -19,14 +21,22 @@ const About = () => {
           {!isFullBio ? (
             <motion.div 
               key="summary"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={{
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  transition: { staggerChildren: 0.15 }
+                }
+              }}
               exit={{ opacity: 0, y: -20 }}
               className="max-w-4xl"
             >
-              <span className="block text-sm font-semibold uppercase tracking-widest text-gray-500 mb-4">Biography</span>
-              <h2 className="text-4xl md:text-5xl font-extrabold text-[#0e074a] mb-8">About Me</h2>
-              <div className="text-lg leading-relaxed text-gray-600 space-y-6">
+              <motion.span variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 }}} className="block text-sm font-semibold uppercase tracking-widest text-gray-500 mb-4">Biography</motion.span>
+              <motion.h2 variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 }}} className="text-4xl md:text-5xl font-extrabold text-[#0e074a] mb-8">About Me</motion.h2>
+              <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 }}} className="text-lg leading-relaxed text-gray-600 space-y-6">
                 <p>
                   I am a Computer Science and Engineering student passionate about problem-solving, 
                   systems thinking, and building efficient software. I focus on strong fundamentals 
@@ -45,9 +55,9 @@ const About = () => {
                     Read More
                   </button>
                 </p>
-              </div>
+              </motion.div>
               
-              <div className="mt-12 flex flex-col md:flex-row md:items-center justify-between gap-8">
+              <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 }}} className="mt-12 flex flex-col md:flex-row md:items-center justify-between gap-8">
                 <a 
                   href="https://www.linkedin.com/in/aditya-sai-nandyala-346178268/" 
                   target="_blank" 
@@ -58,7 +68,7 @@ const About = () => {
                   Connect on LinkedIn
                 </a>
                 <p className="text-sm font-bold text-gray-400 italic md:text-right">— A.S.Naidu</p>
-              </div>
+              </motion.div>
             </motion.div>
           ) : (
             <motion.div 
@@ -83,10 +93,10 @@ const About = () => {
               <div className="flex flex-col lg:flex-row gap-16 items-start">
                 <div className="relative w-full lg:w-[45%] aspect-[1/1.2] shrink-0">
                   <div className="absolute top-0 left-0 w-[80%] h-[70%] rounded-2xl overflow-hidden shadow-2xl z-0">
-                    <img src="/src/assets/IMG_0527.jpg" alt="Casual" className="w-full h-full object-cover" />
+                    <img src={img0527} alt="Casual" className="w-full h-full object-cover" />
                   </div>
                   <div className="absolute bottom-0 right-0 w-[75%] h-[60%] rounded-2xl overflow-hidden shadow-2xl z-10 border-8 border-white">
-                    <img src="/src/assets/IMG_2096_2.jpg" alt="Portrait" className="w-full h-full object-cover" />
+                    <img src={img2096} alt="Portrait" className="w-full h-full object-cover" />
                   </div>
                 </div>
 

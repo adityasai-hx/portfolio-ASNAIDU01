@@ -1,23 +1,33 @@
 import React from 'react';
 import { Linkedin } from 'lucide-react';
+import { motion } from 'framer-motion';
+import profImg from '../assets/img prof 2.png';
 
 const Connect = () => {
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+  };
+
   return (
     <section id="connect" className="bg-[#F4F6F7] py-24 md:py-32">
-      <div className="max-w-7xl mx-auto px-6 text-center">
-        <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-12">Let's Connect</h2>
+      <motion.div 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ staggerChildren: 0.2 }}
+        className="max-w-7xl mx-auto px-6 text-center"
+      >
+        <motion.h2 variants={itemVariants} className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-12">Let's Connect</motion.h2>
         
-        <div className="mx-auto w-40 h-40 rounded-full overflow-hidden shadow-2xl mb-8 border-4 border-white">
-          <img src="/src/assets/img prof 2.png" alt="Aditya Sai" className="w-full h-full object-cover" />
-        </div>
+        <motion.div variants={itemVariants} className="mx-auto w-40 h-40 rounded-full overflow-hidden shadow-2xl mb-8 border-4 border-white">
+          <img src={profImg} alt="Aditya Sai" className="w-full h-full object-cover" />
+        </motion.div>
         
-        <h3 className="text-3xl font-extrabold text-prime mb-4 tracking-tight">Aditya Sai Nandyala</h3>
-        <p className="text-gray-500 max-w-md mx-auto mb-12 font-medium">
-          Thanks for visiting! I'm always open to discussing technology, trading, and collaboration.
-          Send a connection request on LinkedIn.
-        </p>
+        <motion.h3 variants={itemVariants} className="text-3xl font-extrabold text-prime mb-8 tracking-tight">Aditya Sai Nandyala</motion.h3>
         
-        <a 
+        <motion.a 
+          variants={itemVariants}
           href="https://www.linkedin.com/in/aditya-sai-nandyala-346178268/" 
           target="_blank" 
           rel="noopener noreferrer"
@@ -25,8 +35,8 @@ const Connect = () => {
         >
           <Linkedin size={24} />
           Connect on LinkedIn
-        </a>
-      </div>
+        </motion.a>
+      </motion.div>
     </section>
   );
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, Linkedin, Instagram, Facebook } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import logoImg from '../assets/img prof 2.png';
 
 const Sidebar = ({ isOpen, onClose }) => {
   return (
@@ -26,7 +27,7 @@ const Sidebar = ({ isOpen, onClose }) => {
           >
             <div className="flex justify-between items-start mb-12">
               <div className="flex items-center gap-3 text-[#070067] font-extrabold text-xl leading-tight">
-                <img src="/src/assets/img prof 2.png" alt="Logo" className="h-10 w-auto rounded-full" />
+                <img src={logoImg} alt="Logo" className="h-10 w-auto rounded-full" />
                 <div>A.S.<br />Naidu</div>
               </div>
               <button onClick={onClose} className="text-4xl text-gray-800 hover:text-accent transition-colors">
@@ -35,9 +36,23 @@ const Sidebar = ({ isOpen, onClose }) => {
             </div>
 
             <nav className="flex-1">
-              <ul className="space-y-6">
+              <motion.ul 
+                className="space-y-6"
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.2 } }
+                }}
+              >
                 {['Home', 'Biography', 'My Hobbies', 'My Projects', 'Contact Me'].map((item) => (
-                  <li key={item}>
+                  <motion.li 
+                    key={item}
+                    variants={{
+                      hidden: { opacity: 0, x: 20 },
+                      visible: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+                    }}
+                  >
                     <a 
                       href={`#${item.toLowerCase().replace(/\s/g, '')}`}
                       onClick={onClose}
@@ -45,9 +60,9 @@ const Sidebar = ({ isOpen, onClose }) => {
                     >
                       {item}
                     </a>
-                  </li>
+                  </motion.li>
                 ))}
-              </ul>
+              </motion.ul>
             </nav>
 
             <div className="mt-auto flex gap-6">
