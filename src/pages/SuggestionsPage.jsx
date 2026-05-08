@@ -7,7 +7,7 @@ import AdminPanel from '../components/AdminPanel';
 import { fetchStockData } from '../utils/stockApi';
 
 /* ─── Data ──────────────────────────────────────────────────── */
-const TICKER = [
+const DEFAULT_TICKER = [
   'AAPL +1.2%', 'TSLA -0.5%', 'NVDA +2.8%', 'MSFT +0.9%',
   'RELIANCE +1.5%', 'TATAMOTORS +3.2%', 'ZOMATO +4.8%', 'JPM -0.8%',
   'HDFCBANK -0.4%', 'MSFT +1.8%',
@@ -124,33 +124,96 @@ export default function SuggestionsPage() {
   const { indian, global, isAdmin, login, logout, addStock, deleteStock } = useAdminStocks();
   const [showLogin, setShowLogin] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
-  const [liveData, setLiveData] = useState({});
+  
+  // Initialize liveData from localStorage for persistence
+  const [liveData, setLiveData] = useState(() => {
+    try {
+      const saved = localStorage.getItem('asn_live_stock_data');
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
   
   const currentStocks = activeTab === 'global' ? global : indian;
 
   useEffect(() => {
     const fetchLive = async () => {
-      const symbols = currentStocks.map(s => {
-        if (activeTab === 'indian' && !s.symbol.includes('.')) return `${s.symbol}.NS`;
+      // Fetch for all stocks (both indian and global) to keep everything fresh
+      const allStocks = [...indian, ...global];
+      if (allStocks.length === 0) return;
+
+      const symbols = allStocks.map(s => {
+        // Handle Indian stocks suffix if not already present
+        if (indian.some(is => is.symbol === s.symbol) && !s.symbol.includes('.')) {
+          return `${s.symbol}.NS`;
+        }
         return s.symbol;
       });
 
+      // Fetch in chunks to avoid overwhelming the proxy
       const results = await Promise.all(symbols.map(s => fetchStockData(s)));
+      
       const dataMap = {};
-      results.forEach(r => {
+      results.forEach((r, idx) => {
         if (r) {
-          // Map back to original symbol
-          const originalSymbol = r.symbol.replace('.NS', '');
-          dataMap[originalSymbol] = r;
+          // Map back using the requested symbol as key
+          const requestedSymbol = allStocks[idx].symbol;
+          dataMap[requestedSymbol] = r;
         }
       });
-      setLiveData(prev => ({ ...prev, ...dataMap }));
+
+      if (Object.keys(dataMap).length > 0) {
+        setLiveData(prev => {
+          const next = { ...prev, ...dataMap };
+          localStorage.setItem('asn_live_stock_data', JSON.stringify(next));
+          return next;
+        });
+      }
     };
 
     fetchLive();
-    const interval = setInterval(fetchLive, 30000); // Refresh every 30s
+    const interval = setInterval(fetchLive, 60000); // Refresh every 60s to stay within limits
     return () => clearInterval(interval);
-  }, [activeTab, currentStocks.length]); // Refresh on tab change or when stocks are added/removed
+  }, [indian.length, global.length]); // Refresh when lists change
+
+  // Derive Ticker items from live data
+  const tickerItems = Object.keys(liveData).length > 0 
+    ? Object.entries(liveData).map(([sym, data]) => `${sym} ${data.trend}`)
+    : DEFAULT_TICKER;
+
+  const [marketStatus, setMarketStatus] = useState({ indian: 'closed', global: 'closed' });
+
+  useEffect(() => {
+    const checkMarket = () => {
+      const now = new Date();
+      
+      // Indian Market (NSE/BSE): 9:15 AM - 3:30 PM IST (UTC+5:30)
+      const istOffset = 5.5 * 60 * 60 * 1000;
+      const istDate = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + istOffset);
+      const istHours = istDate.getHours();
+      const istMins = istDate.getMinutes();
+      const istDay = istDate.getDay();
+      const isIndianOpen = istDay >= 1 && istDay <= 5 && (istHours > 9 || (istHours === 9 && istMins >= 15)) && (istHours < 15 || (istHours === 15 && istMins <= 30));
+
+      // Global (NYSE/NASDAQ): 9:30 AM - 4:00 PM EST (UTC-5)
+      const estOffset = -5 * 60 * 60 * 1000;
+      const estDate = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + estOffset);
+      const estHours = estDate.getHours();
+      const estMins = estDate.getMinutes();
+      const estDay = estDate.getDay();
+      const isGlobalOpen = estDay >= 1 && estDay <= 5 && (estHours > 9 || (estHours === 9 && estMins >= 30)) && (estHours < 16);
+
+      setMarketStatus({
+        indian: isIndianOpen ? 'open' : 'closed',
+        global: isGlobalOpen ? 'open' : 'closed'
+      });
+    };
+
+    checkMarket();
+    const interval = setInterval(checkMarket, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Stagger chars animation for hero title
   const words = ['Strategic', 'Markets.'];
@@ -222,7 +285,7 @@ export default function SuggestionsPage() {
 
         {/* Ticker bar */}
         <div className="absolute bottom-0 inset-x-0 border-t border-white/8 bg-[#050b51]/60">
-          <AnimatedTicker items={TICKER} />
+          <AnimatedTicker items={tickerItems} />
         </div>
       </section>
 
@@ -254,23 +317,32 @@ export default function SuggestionsPage() {
           </div>
 
           {/* Tab switcher */}
-          <div className="flex bg-white/5 p-1 rounded-full border border-white/10 self-start md:self-auto">
-            {['indian', 'global'].map(tab => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`relative px-7 py-2.5 rounded-full text-[0.65rem] tracking-[0.2em] uppercase font-bold transition-colors duration-300 ${activeTab === tab ? 'text-black' : 'text-white/40 hover:text-white'}`}
-              >
-                {activeTab === tab && (
-                  <motion.div
-                    layoutId="tab-pill"
-                    className="absolute inset-0 rounded-full bg-[#c5a059]"
-                    transition={{ type: 'spring', stiffness: 400, damping: 35 }}
-                  />
-                )}
-                <span className="relative z-10">{tab === 'indian' ? 'India' : 'Global'}</span>
-              </button>
-            ))}
+          <div className="flex flex-col items-end gap-3 self-start md:self-auto">
+            <div className="flex bg-white/5 p-1 rounded-full border border-white/10">
+              {['indian', 'global'].map(tab => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`relative px-7 py-2.5 rounded-full text-[0.65rem] tracking-[0.2em] uppercase font-bold transition-colors duration-300 ${activeTab === tab ? 'text-black' : 'text-white/40 hover:text-white'}`}
+                >
+                  {activeTab === tab && (
+                    <motion.div
+                      layoutId="tab-pill"
+                      className="absolute inset-0 rounded-full bg-[#c5a059]"
+                      transition={{ type: 'spring', stiffness: 400, damping: 35 }}
+                    />
+                  )}
+                  <span className="relative z-10">{tab === 'indian' ? 'India' : 'Global'}</span>
+                </button>
+              ))}
+            </div>
+            
+            <div className="flex items-center gap-3 px-4 py-1.5 rounded-full bg-white/5 border border-white/5">
+              <div className={`w-1.5 h-1.5 rounded-full ${marketStatus[activeTab] === 'open' ? 'bg-emerald-500 animate-pulse' : 'bg-red-500/50'}`} />
+              <span className="text-[0.55rem] uppercase tracking-[0.2em] text-white/30 font-medium">
+                {activeTab === 'indian' ? 'NSE/BSE' : 'NYSE/NASDAQ'} {marketStatus[activeTab] === 'open' ? 'Market Open' : 'Market Closed'}
+              </span>
+            </div>
           </div>
         </motion.div>
 

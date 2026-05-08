@@ -3,23 +3,32 @@ const YAHOO_BASE = 'https://query1.finance.yahoo.com/v8/finance/chart/';
 
 export async function fetchStockData(symbol) {
   try {
-    const url = `${CORS_PROXY}${encodeURIComponent(`${YAHOO_BASE}${symbol}`)}`;
+    // Add timestamp to bypass cache
+    const timestamp = Date.now();
+    const yahooUrl = `${YAHOO_BASE}${symbol}?interval=1m&range=1d&_t=${timestamp}`;
+    const url = `${CORS_PROXY}${encodeURIComponent(yahooUrl)}`;
+    
     const response = await fetch(url);
     if (!response.ok) throw new Error('Network response was not ok');
     
     const data = await response.json();
+    if (!data.contents) throw new Error('No contents in proxy response');
+    
     const contents = JSON.parse(data.contents);
     
-    if (!contents.chart?.result?.[0]) return null;
+    if (!contents.chart?.result?.[0]) {
+      console.warn(`No chart data for ${symbol}`);
+      return null;
+    }
     
     const meta = contents.chart.result[0].meta;
     const price = meta.regularMarketPrice;
-    const prevClose = meta.previousClose;
+    const prevClose = meta.previousClose || meta.chartPreviousClose;
     const change = price - prevClose;
     const changePercent = (change / prevClose) * 100;
     
     return {
-      symbol: meta.symbol,
+      symbol: meta.symbol, // This is the official symbol from Yahoo
       price: price.toFixed(2),
       currency: meta.currency,
       trend: `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(2)}%`,
